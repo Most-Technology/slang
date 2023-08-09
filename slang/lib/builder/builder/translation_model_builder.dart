@@ -31,6 +31,7 @@ class TranslationModelBuilder {
     required Map<String, dynamic> map,
     bool handleLinks = true,
     required String localeDebug,
+    required bool isOverride,
   }) {
     // flat map for leaves (TextNode, PluralNode, ContextNode)
     final Map<String, LeafNode> leavesMap = {};
@@ -49,6 +50,7 @@ class TranslationModelBuilder {
       config: buildConfig,
       keyCase: buildConfig.keyCase,
       leavesMap: leavesMap,
+      isOverride:isOverride,
     );
 
     // 2nd iteration: Handle parameterized linked translations
@@ -146,7 +148,7 @@ class TranslationModelBuilder {
           value.updateWithLinkParams(
             linkParamMap: linkParamMap,
             paramTypeMap: paramTypeMap,
-              isOverride:false,
+              isOverride:isOverride,
           );
         }
       });
@@ -187,6 +189,7 @@ Map<String, Node> _parseMapNode({
   required BuildModelConfig config,
   required CaseStyle? keyCase,
   required Map<String, LeafNode> leavesMap,
+  required bool isOverride,
 }) {
   final Map<String, Node> resultNodeTree = {};
 
@@ -218,7 +221,7 @@ Map<String, Node> _parseMapNode({
               comment: comment,
               interpolation: config.stringInterpolation,
               paramCase: config.paramCase,
-          isOverride: false,
+          isOverride:isOverride,
             )
           : StringTextNode(
               path: currPath,
@@ -228,7 +231,7 @@ Map<String, Node> _parseMapNode({
               comment: comment,
               interpolation: config.stringInterpolation,
               paramCase: config.paramCase,
-          isOverride: false,
+        isOverride:isOverride,
             );
       resultNodeTree[key] = textNode;
       leavesMap[currPath] = textNode;
@@ -249,6 +252,7 @@ Map<String, Node> _parseMapNode({
           config: config,
           keyCase: config.keyCase,
           leavesMap: leavesMap,
+          isOverride:isOverride,
         );
 
         // finally only take their values, ignoring keys
@@ -275,6 +279,7 @@ Map<String, Node> _parseMapNode({
               ? config.keyMapCase
               : config.keyCase,
           leavesMap: leavesMap,
+          isOverride:isOverride,
         );
 
         final Node finalNode;
@@ -325,6 +330,7 @@ Map<String, Node> _parseMapNode({
               config: config,
               keyCase: config.keyCase,
               leavesMap: leavesMap,
+              isOverride:isOverride,
             ).cast<String, RichTextNode>();
           }
 

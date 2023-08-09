@@ -47,6 +47,7 @@ class TranslationMap {
       final locale = localeEntry.key;
       final namespaces = localeEntry.value;
       return TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: buildConfig,
         map: rawConfig.namespaces ? namespaces : namespaces.values.first,
         localeDebug: locale.languageTag,

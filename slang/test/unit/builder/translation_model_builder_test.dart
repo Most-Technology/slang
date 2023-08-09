@@ -12,6 +12,7 @@ void main() {
   group('TranslationModelBuilder.build', () {
     test('1 StringTextNode', () {
       final result = TranslationModelBuilder.build(
+        isOverride:false,
         buildConfig: baseConfig.toBuildModelConfig(),
         localeDebug: defaultLocale.languageTag,
         map: {
@@ -24,6 +25,7 @@ void main() {
 
     test('keyCase=snake and keyMapCase=camel', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.copyWith(
           maps: ['my_map'],
           keyCase: CaseStyle.snake,
@@ -40,6 +42,7 @@ void main() {
 
     test('keyCase=snake and keyMapCase=null', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.copyWith(
           maps: ['my_map'],
           keyCase: CaseStyle.snake,
@@ -55,6 +58,7 @@ void main() {
 
     test('one link no parameters', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.toBuildModelConfig(),
         localeDebug: defaultLocale.languageTag,
         map: {
@@ -69,6 +73,7 @@ void main() {
 
     test('one link 2 parameters straight', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.toBuildModelConfig(),
         localeDebug: defaultLocale.languageTag,
         map: {
@@ -83,6 +88,7 @@ void main() {
 
     test('linked translations with parameters recursive', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.toBuildModelConfig(),
         localeDebug: defaultLocale.languageTag,
         map: {
@@ -99,6 +105,7 @@ void main() {
 
     test('linked translation with plural', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.toBuildModelConfig(),
         localeDebug: defaultLocale.languageTag,
         map: {
@@ -117,6 +124,7 @@ void main() {
 
     test('linked translation with context', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.copyWith(contexts: [
           ContextType(
             enumName: 'GenderCon',
@@ -143,6 +151,7 @@ void main() {
 
     test('empty lists should take generic type of interface', () {
       final result = TranslationModelBuilder.build(
+        isOverride: false,
         buildConfig: baseConfig.copyWith(interfaces: [
           InterfaceConfig(
             name: 'MyInterface',

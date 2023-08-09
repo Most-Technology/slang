@@ -164,6 +164,7 @@ extension AppLocaleUtilsExt<E extends BaseAppLocale<E, T>,
       map: digestedMap,
       handleLinks: false,
       localeDebug: locale.languageTag,
+      isOverride:true,
     );
 
     return locale.build(
