@@ -447,7 +447,8 @@ class RichTextNode extends TextNode {
 }
 
 String _escapeContent(String raw, StringInterpolation interpolation) {
-  final escapedRaw = raw;
+  final escapedRaw = raw
+      .replaceAll("'", '\''); // ' -> \'
 
   if (interpolation == StringInterpolation.dart) {
     // escape single $
