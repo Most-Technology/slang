@@ -146,6 +146,7 @@ class TranslationModelBuilder {
           value.updateWithLinkParams(
             linkParamMap: linkParamMap,
             paramTypeMap: paramTypeMap,
+              isOverride:false,
           );
         }
       });
@@ -217,6 +218,7 @@ Map<String, Node> _parseMapNode({
               comment: comment,
               interpolation: config.stringInterpolation,
               paramCase: config.paramCase,
+          isOverride: false,
             )
           : StringTextNode(
               path: currPath,
@@ -226,6 +228,7 @@ Map<String, Node> _parseMapNode({
               comment: comment,
               interpolation: config.stringInterpolation,
               paramCase: config.paramCase,
+          isOverride: false,
             );
       resultNodeTree[key] = textNode;
       leavesMap[currPath] = textNode;

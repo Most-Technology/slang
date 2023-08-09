@@ -244,10 +244,10 @@ abstract class TextNode extends Node implements LeafNode {
 
   /// Updates [content], [params] and [paramTypeMap]
   /// according to the new linked parameters
-  void updateWithLinkParams({
-    required Map<String, Set<String>> linkParamMap,
-    required Map<String, String> paramTypeMap,
-  });
+  void updateWithLinkParams(
+      {required Map<String, Set<String>> linkParamMap,
+      required Map<String, String> paramTypeMap,
+      required bool isOverride});
 }
 
 class StringTextNode extends TextNode {
@@ -281,9 +281,10 @@ class StringTextNode extends TextNode {
     required super.interpolation,
     required super.paramCase,
     Map<String, Set<String>>? linkParamMap,
+    required bool isOverride,
   }) {
     final parsedResult = _parseInterpolation(
-      raw: _escapeContent(raw, interpolation),
+      raw: _escapeContent(raw, interpolation, isOverride),
       interpolation: interpolation,
       paramCase: paramCase,
     );
@@ -306,6 +307,7 @@ class StringTextNode extends TextNode {
   void updateWithLinkParams({
     required Map<String, Set<String>> linkParamMap,
     required Map<String, String> paramTypeMap,
+    required bool isOverride,
   }) {
     this._paramTypeMap = paramTypeMap;
     this._params.addAll(linkParamMap.values.expand((e) => e));
@@ -320,6 +322,7 @@ class StringTextNode extends TextNode {
       interpolation: interpolation,
       paramCase: paramCase,
       linkParamMap: linkParamMap,
+      isOverride: isOverride,
     );
 
     this._content = temp.content;
@@ -364,9 +367,10 @@ class RichTextNode extends TextNode {
     required super.interpolation,
     required super.paramCase,
     Map<String, Set<String>>? linkParamMap,
+    required bool isOverride,
   }) {
     final rawParsedResult = _parseInterpolation(
-      raw: _escapeContent(raw, interpolation),
+      raw: _escapeContent(raw, interpolation, isOverride),
       interpolation: interpolation,
       paramCase: null, // param case will be applied later
     );
@@ -426,6 +430,7 @@ class RichTextNode extends TextNode {
   void updateWithLinkParams({
     required Map<String, Set<String>> linkParamMap,
     required Map<String, String> paramTypeMap,
+    required bool isOverride,
   }) {
     this._paramTypeMap.addAll(paramTypeMap);
     this._params.addAll(linkParamMap.values.expand((e) => e));
@@ -440,15 +445,19 @@ class RichTextNode extends TextNode {
       interpolation: interpolation,
       paramCase: paramCase,
       linkParamMap: linkParamMap,
+      isOverride: isOverride,
     );
 
     this._spans = temp.spans;
   }
 }
 
-String _escapeContent(String raw, StringInterpolation interpolation) {
-  final escapedRaw = raw
-      .replaceAll("'", "\'"); // ' -> \'
+String _escapeContent(
+    String raw, StringInterpolation interpolation, bool isOverride) {
+  final escapedRaw = isOverride ? raw : raw
+          .replaceAll('\r\n', '\\n') // CRLF -> \n
+          .replaceAll('\n', '\\n') // LF -> \n
+          .replaceAll('\'', '\\\''); // ' -> \'
 
   if (interpolation == StringInterpolation.dart) {
     // escape single $

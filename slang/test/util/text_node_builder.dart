@@ -14,6 +14,7 @@ StringTextNode textNode(
     comment: null,
     interpolation: interpolation,
     paramCase: paramCase,
+      isOverride: false,
   );
 }
 
@@ -30,5 +31,6 @@ RichTextNode richTextNode(
     raw: raw,
     interpolation: interpolation,
     paramCase: paramCase,
+    isOverride: false,
   );
 }
