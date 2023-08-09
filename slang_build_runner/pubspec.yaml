@@ -11,4 +11,9 @@ dependencies:
   glob: ^2.0.2
 
   # Use tight version to ensure that all features are available
-  slang: '>=3.17.0 <3.18.0'
+  slang:
+    git:
+      url: git@github.com:Most-Technology/slang.git
+      path: slang
+      ref: version-3.17.0
+
